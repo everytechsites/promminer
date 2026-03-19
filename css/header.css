@@ -485,6 +485,11 @@
     transition: .2s ease;
     position: absolute;
 }
+@media(max-width: 1521px){
+    .pm-menu-popup__container{
+        max-width: calc(100vw - var(--container-padding) * 2);
+    }
+}
 
 .pm-menu-popup__container.active{
     opacity: 1;
