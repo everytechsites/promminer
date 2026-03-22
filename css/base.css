@@ -360,6 +360,11 @@ body.lock{
 /* ========================
    INPUTS
 ======================== */
+input.pm-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px transparent inset;
+    -webkit-text-fill-color: inherit;
+    transition: background-color 9999s ease-in-out 0s;
+}
 .pm-input__container{
     display: -webkit-box;
     display: -ms-flexbox;
@@ -578,6 +583,8 @@ body.lock{
     display: flex;
     width: 24px;
     height: 24px;
+    min-width: 24px;
+    min-height: 24px;
     padding: 3px;
     -webkit-box-pack: center;
     -ms-flex-pack: center;
@@ -708,7 +715,7 @@ body.lock{
     /* Body/M/Semi Bold */
     font-family: inherit;
     font-size: var(--body-m-fs);
-    font-weight: 600;
+    font-weight: 500;
     line-height: 1.25;
 }
 .pm-btn--primary:active{
@@ -860,16 +867,20 @@ body.lock{
     font-weight: 600;
     line-height: 1.25;
 
-    -webkit-transition: .2s ease;
-
-    -o-transition: .2s ease;
-
-    transition: .2s ease;
+    -webkit-transition: .3s ease;
+    -o-transition: .3s ease;
+    transition: .3s ease;
 }
 
 .pm-tab-item.active{
     background: var(--bg-sentiment-accent);
     color: var(--static-white);
+}
+@media(any-hover: hover){
+    .pm-tab-item:hover{
+        background: var(--bg-sentiment-accent);
+        color: var(--static-white);
+    }
 }
 
 @media (max-width: 1280px) {
