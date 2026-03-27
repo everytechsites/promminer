@@ -3594,6 +3594,11 @@
 .pm-lightbox__close .pm-btn-icon{
     transform: translateY(1px);
 }
+@media(max-width: 768px){
+    .pm-lightbox__close .pm-btn-icon{
+        transform: translateY(2px);
+    }
+}
 
 .swiper.pm-lightbox-slider,
 .swiper.pm-lightbox-thumbs{
