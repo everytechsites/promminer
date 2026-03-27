@@ -2101,15 +2101,6 @@
     height: 100%;
 }
 
-.mobile-catalog-open .pm-menu-mobile__nav-container,
-.mobile-catalog-open .pm-menu-mobile__contacts-container {
-    display: none;
-}
-
-.mobile-category-open .pm-catalog-menu-nav__container{
-    display: none;
-}
-
 @media(max-width: 960px){
     .pm-menu-popup--mobile{
         display: -webkit-box;
@@ -2212,6 +2203,34 @@
         padding: 8px 0 0;
         height: auto;
         max-height: 100%;
+    }
+
+    .pm-menu-mobile__nav-container,
+    .pm-menu-mobile__contacts-container{
+        opacity: 1;
+        visibility: visible;
+        -webkit-transition: .5s ease;
+        -o-transition: .5s ease;
+        transition: .5s ease;
+    }
+
+    .mobile-catalog-open .pm-menu-mobile__nav-container,
+    .mobile-catalog-open .pm-menu-mobile__contacts-container {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .pm-catalog-menu-nav__container{
+        opacity: 1;
+        visibility: visible;
+        -webkit-transition: .5s ease;
+        -o-transition: .5s ease;
+        transition: .5s ease;
+    }
+
+    .mobile-category-open .pm-catalog-menu-nav__container{
+        opacity: 0;
+        visibility: hidden;
     }
 }
 
