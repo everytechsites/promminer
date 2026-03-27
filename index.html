@@ -4790,21 +4790,23 @@
 
     <!-- слайдер в событиях-->
     <script>
-        const eventsSlider = new Swiper('.pm-events-slider', {
-            spaceBetween: 16,
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            initialSlide: 2,
-            speed: 400,
-            pagination: {
-                el: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular-pagination'),
-                clickable: true,
-            },
-            navigation: {
-                nextEl: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular__next-btn'),
-                prevEl: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular__prev-btn'),
-            },
-        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const eventsSlider = new Swiper('.pm-events-slider', {
+                spaceBetween: 16,
+                slidesPerView: 'auto',
+                centeredSlides: true,
+                initialSlide: 2,
+                speed: 400,
+                pagination: {
+                    el: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular-pagination'),
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular__next-btn'),
+                    prevEl: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular__prev-btn'),
+                },
+            });
+        })
     </script>
     <!-- слайдер в лайтбоксе с наградами   -->
     <script>
