@@ -4104,7 +4104,7 @@
     gap: 16px;
     min-width: clamp(315px, 21.555vw, 388px);
     max-width: clamp(315px, 21.555vw, 388px);
-    transition: min-width .3s ease, max-width .3s ease;
+    transition: min-width .4s ease, max-width .4s ease;
 }
 .swiper-slide.pm-event-card.swiper-slide-active{
     padding: 0;
