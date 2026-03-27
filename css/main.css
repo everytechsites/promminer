@@ -2,7 +2,7 @@
    ModalFeedback Форма заказа звонка
 ======================== */
 .pm-popup-overlay#feedbackPopup{
-    padding: 0 var(--container-padding);
+    padding: 0 calc(var(--container-padding) + var(--scrollbar-width)) 0 var(--container-padding);
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
@@ -273,6 +273,12 @@
     line-height: var(--body-m-lh);
 }
 
+@media (max-width: 768px) and (min-width: 641px) {
+    #feedbackForm .pm-checkbox-text br{
+        display: none;
+    }
+}
+
 /* ========================
    MainBlock
 ======================== */
@@ -515,7 +521,7 @@
     grid-template-columns: repeat(6, 1fr);
     gap: 8px;
 }
-@media(max-width: 1225px){
+@media(max-width: 1240px){
     .pm-main-block__cards{
         -ms-grid-columns: (1fr)[3];
         grid-template-columns: repeat(3, 1fr);
@@ -656,7 +662,7 @@
         line-height: var(--caption-m-lh);
     }
 }
-@media(max-width: 1225px){
+@media(max-width: 1240px){
     .pm-main-card{
         -webkit-box-orient: horizontal;
         -webkit-box-direction: reverse;
@@ -1053,6 +1059,12 @@
     height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
+    transition: .3s ease;
+}
+@media(any-hover: hover){
+    .pm-features__object-badge:hover{
+        background: #f5f5f5;
+    }
 }
 @media(max-width: 768px){
     .pm-features__object-badge{
@@ -3453,6 +3465,12 @@
     font-size: clamp(16px, 1vw, 18px);
     font-weight: 600;
     line-height: 1.222;
+    transition: .3s ease;
+}
+@media(any-hover: hover){
+    .swiper-slide.pm-rewards__card:hover .pm-reward-title{
+        color: var(--content-sentiment-accent);
+    }
 }
 
 .pm-reward-name{
@@ -3513,9 +3531,9 @@
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    -webkit-transition: .2s ease;
-    -o-transition: .2s ease;
-    transition: .2s ease;
+    -webkit-transition: .3s ease;
+    -o-transition: .3s ease;
+    transition: .3s ease;
 }
 
 .pm-lightbox.active {
@@ -3549,6 +3567,14 @@
     gap: 33px;
     padding-top: 32px;
     padding-bottom: 28px;
+    opacity: 0;
+    visibility: hidden;
+    transition: .3s ease;
+}
+
+.pm-lightbox.active .pm-lightbox__content{
+    opacity: 1;
+    visibility: visible;
 }
 
 .pm-lightbox__close {
@@ -3561,6 +3587,12 @@
     width: var(--base-size-1xl);
     height: var(--base-size-1xl);
     z-index: 2;
+    padding: 0;
+    transition: .3s ease;
+}
+
+.pm-lightbox__close .pm-btn-icon{
+    transform: translateY(1px);
 }
 
 .swiper.pm-lightbox-slider,
@@ -3658,6 +3690,7 @@
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
     border-radius: var(--radius-full);
+    transition: .3s ease;
 }
 
 .pm-lightbox .swiper-button-next svg,
@@ -3871,11 +3904,20 @@
     -ms-flex-item-align: stretch;
     -ms-grid-row-align: stretch;
     align-self: stretch;
-    background-size: cover;
+    background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
     border-radius: var(--radius-m);
+
+    transition: .3s ease;
 }
+
+@media(any-hover: hover){
+    .pm-news-item:hover{
+        background-size: 103%;
+    }
+}
+
 @media(max-width: 768px){
     .pm-news-item{
         height: clamp(185px, 30.20833vw,232px);
@@ -4049,7 +4091,7 @@
 }
 @media(max-width: 1280px){
     .swiper-slide.pm-event-card.swiper-slide-active{
-        min-height: calc(228px + 16px + 101px);
+        min-height: calc(228px + 30px + 101px);
     }
 }
 @media(max-width: 1220px){
@@ -4079,7 +4121,12 @@
         min-width: 270px;
         max-width: 270px;
         transform: translateY(22px);
-        transition: transform .3s ease;
+        transition: all .4s ease;
+    }
+
+    .swiper-slide.pm-event-card.swiper-slide-active{
+        transform: translateY(0);
+        transition: all .4s ease;
     }
 }
 @media(max-width: 600px){
@@ -4189,6 +4236,7 @@
 
 .swiper-slide.pm-event-card.swiper-slide-active .pm-event-logo{
     height: 72px;
+    transition: .4s ease;
 }
 
 .pm-event__text-container{
@@ -5041,6 +5089,7 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     overflow: hidden;
+    z-index: auto;
 }
 
 .pm-footer{
@@ -5500,6 +5549,11 @@
     -o-transition: .3s ease;
     transition: .3s ease;
 }
+@media(max-width: 600px){
+    .pm-footer-list:nth-child(1) .pm-footer-list--small {
+        display: flex;
+    }
+}
 
 .pm-footer__list-title{
     color: #737373;
@@ -5905,4 +5959,8 @@
         right: 32px;
         bottom: 96px;
     }
+}
+
+#goUpBtn .pm-btn-icon{
+    transform: translateY(1px);
 }

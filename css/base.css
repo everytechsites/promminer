@@ -770,6 +770,9 @@ input.pm-input:-webkit-autofill {
     align-items: center;
     gap: 8px;
     transition: .3s ease;
+    border: none;
+    background: transparent;
+    padding: 0;
 
     color: var(--content-sentiment-accent);
     font-size: 16px;
@@ -786,6 +789,33 @@ input.pm-input:-webkit-autofill {
         font-size: 14px;
         line-height: 18px;
     }
+}
+
+.pm-btn--link{
+    display: inline-flex;
+    height: var(--base-size-2xs);
+    align-items: center;
+    gap: 8px;
+
+    color: var(--content-sentiment-accent);
+    font-size: clamp(14px, 0.888vw, 16px);
+    font-weight: 600;
+    line-height: 1.25;
+    transition: .3s ease;
+}
+@media(max-width: 1280px){
+    .pm-btn--link{
+        font-size: 14px;
+        line-height: 18px;
+    }
+}
+
+.pm-btn--link .pm-btn-text{
+    text-decoration: underline;
+}
+
+.pm-btn--link .pm-btn-icon path{
+    fill: var(--content-sentiment-accent);
 }
 
 @media(any-hover: hover){
@@ -810,6 +840,10 @@ input.pm-input:-webkit-autofill {
     }
 
     .pm-btn--ghost-primary:hover{
+        opacity: var(--active);
+    }
+
+    .pm-btn--link:hover{
         opacity: var(--active);
     }
 }
@@ -925,7 +959,7 @@ input.pm-input:-webkit-autofill {
     color: var(--static-white);
 }
 @media(any-hover: hover){
-    .pm-tab-item:hover{
+    .pm-tab-item:not(.active):hover{
         background: var(--control-neutral-secondary-hover)
     }
 }
