@@ -4796,6 +4796,7 @@
                 slidesPerView: 'auto',
                 centeredSlides: true,
                 initialSlide: 2,
+                freeMode: true,
                 speed: 400,
                 pagination: {
                     el: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular-pagination'),
@@ -4805,6 +4806,11 @@
                     nextEl: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular__next-btn'),
                     prevEl: document.querySelector('.pm-events__wrapper').querySelector('.pm-popular__prev-btn'),
                 },
+                breakpoints: {
+                    601: {
+                        freeMode:false,
+                    }
+                }
             });
         })
     </script>
