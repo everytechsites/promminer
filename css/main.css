@@ -4156,7 +4156,7 @@
 }
 @media(max-width: 600px){
     .swiper-slide.pm-event-card:not(.swiper-slide-active){
-        transform: translateY(0);
+        transform: none;
     }
 }
 
