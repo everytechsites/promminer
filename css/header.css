@@ -2614,6 +2614,11 @@
 .pm-header.pm-header--fixed .pm-header__search-icon path{
     fill: var(--content-base-primary);
 }
+@media(any-hover: hover){
+    .pm-header.pm-header--fixed #openSearch:hover .pm-header__search-icon path{
+        fill: var(--content-base-secondary);
+    }
+}
 
 .pm-header.pm-header--fixed .pm-header__search-input::-webkit-input-placeholder{
     color: var(--content-base-primary);
