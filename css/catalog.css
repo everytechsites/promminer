@@ -392,6 +392,7 @@ h1.pm-breadcrumb-title{
 .pm-product-slider-main .swiper-slide .pm-thumb__video-icon{
     width: 70px;
     height: 70px;
+    pointer-events: none;
 }
 
 .pm-product-slider-main .swiper-slide .pm-thumb__video-icon svg{
@@ -399,11 +400,16 @@ h1.pm-breadcrumb-title{
     height: 26px;
 }
 
+.pm-lightbox-slider .swiper-slide .pm-thumb__video-icon{
+    display: none;
+}
+
 @media(min-width: 1141px){
     .pm-product-slider-main .swiper-slide .pm-thumb__video-icon{
         display: none;
     }
 }
+
 
 .pm-product__main-img,
 .pm-product__main-video{
@@ -413,6 +419,11 @@ h1.pm-breadcrumb-title{
     object-fit: contain;
     border-radius: inherit;
     cursor: pointer;
+}
+
+.pm-product-thumb .pm-product__main-video{
+    object-fit: cover;
+    -o-object-fit: cover;
 }
 
 #productLightbox .pm-lightbox__content{
