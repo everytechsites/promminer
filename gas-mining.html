@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="css/old/template_styles.css">
     <link rel="stylesheet" href="css/fonts.css">
     <link rel="stylesheet" href="./mini-profitability-widget.css" />
+    <link rel="stylesheet" href="css/profitability-calculator-widget.css" />
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="css/gas-mining.css">
-    <link rel="stylesheet" href="css/profitability-calculator-widget.css" />
 
     <script src="js/DynamicAdapt.js"></script>
     <script src="js/topMenu.js" defer></script>
@@ -1167,7 +1167,8 @@
                     <div class="pm-input__container">
                         <div class="pm-input-wrapper pm-input-wrapper--phone">
                             <div class="pm-input__phone-code">+7</div>
-                            <input class="pm-input" type="tel" name="tel" id="tel" required autocomplete="tel-national" aria-label="Телефон" placeholder="(999) 999-99-99">
+                            <label for="tel" class="pm-input-label">(999) 999-99-99<span class="pm-required">*</span></label>
+                            <input class="pm-input" type="tel" name="tel" id="tel" required autocomplete="tel-national">
                         </div>
                         <div class="pm-input__error">Заполните это поле</div>
                     </div>
@@ -1259,7 +1260,8 @@
                     <div class="pm-input__container">
                         <div class="pm-input-wrapper pm-input-wrapper--phone">
                             <div class="pm-input__phone-code">+7</div>
-                            <input class="pm-input" type="tel" name="tel" id="solutionTel" required autocomplete="tel-national" aria-label="Телефон" placeholder="(999) 999-99-99">
+                            <label for="solutionTel" class="pm-input-label">(999) 999-99-99<span class="pm-required">*</span></label>
+                            <input class="pm-input" type="tel" name="tel" id="solutionTel" required autocomplete="tel-national">
                         </div>
                         <div class="pm-input__error">Заполните это поле</div>
                     </div>
@@ -1291,8 +1293,8 @@
                     <div class="pm-input-wrapper pm-input-wrapper--textarea">
                         <label for="solutionComment" class="pm-input-label">Комментарий</label>
                         <textarea class="pm-input pm-textarea" name="comment" id="solutionComment" maxlength="100"></textarea>
-                        <span class="pm-textarea__counter">0/100</span>
                     </div>
+                    <span class="pm-textarea__counter">0/100</span>
                 </div>
 
                 <div class="pm-input__container">
@@ -1404,7 +1406,8 @@
                     <div class="pm-input__container">
                         <div class="pm-input-wrapper pm-input-wrapper--phone">
                             <div class="pm-input__phone-code">+7</div>
-                            <input class="pm-input" type="tel" name="tel" id="tel" required autocomplete="tel-national" aria-label="Телефон" placeholder="(999) 999-99-99">
+                            <label for="serviceTel" class="pm-input-label">(999) 999-99-99<span class="pm-required">*</span></label>
+                            <input class="pm-input" type="tel" name="tel" id="serviceTel" required autocomplete="tel-national">
                         </div>
                         <div class="pm-input__error">Заполните это поле</div>
                     </div>
@@ -1444,7 +1447,7 @@
         <div class="pm-popup-feedback__container" id="serviceSuccess">
             <div class="pm-popup-feedback__header">
                 <div class="pm-popup-feedback__header-content"></div>
-                <button class="pm-menu-mobile__header-btn pm-btn--neutral close-feedback-popup">
+                <button class="pm-menu-mobile__header-btn pm-btn--neutral close-service-popup">
                     <svg class="pm-btn-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                         <path d="M15.7123 16.7729L7.22699 8.28765C6.93708 7.99773 6.93708 7.5169 7.22699 7.22699C7.51691 6.93707 7.99774 6.93707 8.28765 7.22699L16.7729 15.7123C17.0628 16.0022 17.0628 16.483 16.7729 16.7729C16.483 17.0628 16.0022 17.0628 15.7123 16.7729Z" fill="black"/>
                         <path d="M7.22706 16.773C6.93715 16.4831 6.93715 16.0023 7.22706 15.7124L15.7123 7.22711C16.0023 6.93719 16.4831 6.93719 16.773 7.22711C17.0629 7.51702 17.0629 7.99785 16.773 8.28777L8.28772 16.773C7.99781 17.063 7.51698 17.063 7.22706 16.773Z" fill="black"/>
@@ -1464,7 +1467,7 @@
             </div>
 
             <div class="pm-popup-feedback__btn-container">
-                <button class="pm-btn pm-btn--primary close-feedback-popup">Отлично</button>
+                <button class="pm-btn pm-btn--primary close-service-popup">Отлично</button>
             </div>
         </div>
     </div>
@@ -1532,6 +1535,12 @@
                                 <button class="pm-tab-item" role="tab" data-tab="gas-5" aria-selected="false">Baudouin</button>
                             </div>
                         </div>
+                        <a href="#" class="pm-btn pm-btn--primary" data-da=".pm-popular__wrapper,1140,last">
+                            <span class="pm-btn-text">Посмотреть все</span>
+                            <svg class="pm-btn-icon pm-btn-icon--arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 5.46967C13.7626 5.17678 14.2374 5.17678 14.5303 5.46967L20.5303 11.4697C20.8232 11.7626 20.8232 12.2374 20.5303 12.5303L14.5303 18.5303C14.2374 18.8232 13.7626 18.8232 13.4697 18.5303C13.1768 18.2374 13.1768 17.7626 13.4697 17.4697L18.1893 12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H18.1893L13.4697 6.53033C13.1768 6.23744 13.1768 5.76256 13.4697 5.46967Z" fill="white"/>
+                            </svg>
+                        </a>
                     </div>
 
                     <!-- Weichai -->
@@ -1973,12 +1982,6 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="pm-btn pm-btn--primary">
-                        <span class="pm-btn-text">Посмотреть все</span>
-                        <svg class="pm-btn-icon pm-btn-icon--arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M13.4697 5.46967C13.7626 5.17678 14.2374 5.17678 14.5303 5.46967L20.5303 11.4697C20.8232 11.7626 20.8232 12.2374 20.5303 12.5303L14.5303 18.5303C14.2374 18.8232 13.7626 18.8232 13.4697 18.5303C13.1768 18.2374 13.1768 17.7626 13.4697 17.4697L18.1893 12.75H4C3.58579 12.75 3.25 12.4142 3.25 12C3.25 11.5858 3.58579 11.25 4 11.25H18.1893L13.4697 6.53033C13.1768 6.23744 13.1768 5.76256 13.4697 5.46967Z" fill="white"/>
-                        </svg>
-                    </a>
                 </div>
             </div>
         </section>
@@ -2681,7 +2684,8 @@
                                         <div class="pm-input__container">
                                             <div class="pm-input-wrapper pm-input-wrapper--phone">
                                                 <div class="pm-input__phone-code">+7</div>
-                                                <input class="pm-input" type="tel" name="tel" id="footertel" required autocomplete="tel-national" aria-label="Телефон" placeholder="(999) 999-99-99">
+                                                <label for="footerTel" class="pm-input-label">(999) 999-99-99<span class="pm-required">*</span></label>
+                                                <input class="pm-input" type="tel" name="tel" id="footerTel" required autocomplete="tel-national">
                                             </div>
                                             <div class="pm-input__error">Заполните это поле</div>
                                         </div>
@@ -3016,8 +3020,695 @@
         </div>
     </div>
 
-    
-        
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.pm-tab-item');
+            const contents = document.querySelectorAll('[data-tab-content]');
+
+            const popularSliders = document.querySelectorAll('.pm-popular-slider');
+            const swipers = [];
+
+            if (popularSliders){
+                // инициализация свайперов
+                popularSliders.forEach(slider => {
+                    const instance = new Swiper(slider, {
+                        spaceBetween: 16,
+                        slidesPerView: 'auto',
+                        slidesPerGroup: 1,
+                        speed: 1200,
+                        pagination: {
+                            el: slider.querySelector('.pm-popular-pagination'),
+                            clickable: true,
+                        },
+                        navigation: {
+                            nextEl: slider.querySelector('.pm-popular__next-btn'),
+                            prevEl: slider.querySelector('.pm-popular__prev-btn'),
+                        },
+                        breakpoints: {
+                            1025: {
+                                slidesPerView: 4,
+                                slidesPerGroup: 4,
+                                speed: 800,
+                            },
+                            1681: {
+                                slidesPerView: 5,
+                                slidesPerGroup: 5,
+                            }
+                        },
+                    });
+
+                    swipers.push({
+                        el: slider,
+                        instance
+                    });
+                });
+            }
+
+
+            if (tabs) {
+                // табы
+                tabs.forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const id = tab.dataset.tab;
+
+                        // активный таб
+                        tabs.forEach(t => {
+                            t.classList.remove('active');
+                            t.setAttribute('aria-selected', 'false');
+                        });
+
+                        tab.classList.add('active');
+                        tab.setAttribute('aria-selected', 'true');
+
+                        contents.forEach(c => c.classList.remove('active'));
+
+                        const activeContent = document.querySelector(`[data-tab-content="${id}"]`);
+                        activeContent.classList.add('active');
+
+                        // обновление нужного swiper
+                        const current = swipers.find(s => s.el === activeContent);
+                        if (current) {
+                            current.instance.update();
+                        }
+                    });
+                });
+            }
+
+            document.querySelectorAll('.pm-card-images').forEach(container => {
+                const images = container.querySelectorAll('img');
+                const dotsContainer = container.parentElement.querySelector('.pm-card-dots');
+
+                images.forEach((_, i) => {
+                    const dot = document.createElement('span');
+                    if (i === 0) dot.classList.add('active');
+                    dotsContainer.appendChild(dot);
+                });
+
+                const dots = dotsContainer.querySelectorAll('span');
+
+                container.addEventListener('mousemove', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const percent = x / rect.width;
+
+                    const index = Math.min(
+                        Math.floor(percent * images.length),
+                        images.length - 1
+                    );
+
+                    images.forEach(img => img.classList.remove('active'));
+                    dots.forEach(dot => dot.classList.remove('active'));
+
+                    images[index].classList.add('active');
+                    dots[index].classList.add('active');
+                });
+
+                container.addEventListener('mouseleave', () => {
+                    images.forEach(img => img.classList.remove('active'));
+                    dots.forEach(dot => dot.classList.remove('active'));
+
+                    images[0].classList.add('active');
+                    dots[0].classList.add('active');
+                });
+            });
+
+            // Слайдер ГПУ — центрированный с блюром соседних
+            const gpuSlider = document.querySelector('.pm-gas-gpu__slider');
+            if (gpuSlider) {
+                var gpuSwiper = new Swiper(gpuSlider, {
+                    slidesPerView: 1.5,
+                    centeredSlides: true,
+                    spaceBetween: 16,
+                    speed: 600,
+                    loop: true,
+                    grabCursor: true,
+                    slideToClickedSlide: true,
+                    breakpoints: {
+                        // На мобилках делаем компактнее (больше слайдов в видимости)
+                        320: {
+                            slidesPerView: 2.5,
+                            spaceBetween: 8
+                        },
+                        768: {
+                            slidesPerView: 2.2,
+                            spaceBetween: 12
+                        },
+                        // На десктопе крупнее (меньше слайдов в видимости)
+                        1025: {
+                            slidesPerView: 1.5,
+                            spaceBetween: 16
+                        }
+                    }
+                });
+            }
+
+            // Слайдер кейсов на мобилке (до 1024px)
+            const casesSliderMobile = document.querySelector('.pm-gas-cases__slider-mobile');
+            if (casesSliderMobile && typeof Swiper !== 'undefined') {
+                var casesSwiperMobile = new Swiper(casesSliderMobile, {
+                    slidesPerView: 'auto',
+                    spaceBetween: 16,
+                    grabCursor: true,
+                    observer: true,
+                    observeParents: true,
+                    breakpoints: {
+                        1025: {
+                            enabled: false
+                        }
+                    },
+                    on: {
+                        init: function () {
+                            console.log('Cases mobile slider initialized');
+                        }
+                    }
+                });
+            }
+
+            // Решения слайдер
+            const solutionsSlider = document.querySelector('.pm-gas-solutions__slider');
+            if (solutionsSlider) {
+                var solutionsSwiper = new Swiper(solutionsSlider, {
+                    slidesPerView: 'auto',
+                    spaceBetween: 16,
+                    speed: 600,
+                    grabCursor: true,
+                    watchSlidesProgress: true,
+                    navigation: {
+                        prevEl: '.pm-gas-solutions__prev-btn',
+                        nextEl: '.pm-gas-solutions__next-btn',
+                    },
+                    pagination: {
+                        el: '.pm-gas-solutions-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        1701: {
+                            enabled: false,
+                        }
+                    },
+                    on: {
+                        init: function () {
+                            console.log('Solutions Swiper initialized');
+                        }
+                    }
+                });
+            }
+
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pm-input-wrapper').forEach(container => {
+                const input = container.querySelector('.pm-input');
+
+                // При фокусе добавляем класс
+                input.addEventListener('focus', () => {
+                    container.classList.add('active');
+                });
+
+                // При blur убираем класс, если инпут пустой
+                input.addEventListener('blur', () => {
+                    if (!input.value) {
+                        container.classList.remove('active');
+                    }
+                });
+
+                // Если инпут уже заполнен при загрузке, показываем активное состояние
+                if (input.value) {
+                    container.classList.add('active');
+                }
+            });
+
+            // const phoneInput = document.querySelector('.pm-input-wrapper--phone .pm-input');
+            // console.log(phoneInput);
+            // if (phoneInput){
+            document.querySelectorAll('.pm-input-wrapper--phone .pm-input').forEach(container => {
+                IMask(container, {
+                    mask: '(000) 000-00-00'
+                });
+            });
+
+            const form = document.querySelector('#feedbackForm');
+
+            if (form) {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    let hasError = false;
+
+                    const inputs = form.querySelectorAll('.pm-input, .pm-checkbox');
+
+                    inputs.forEach(input => {
+                        const container = input.closest('.pm-input__container');
+                        const errorEl = container.querySelector('.pm-input__error');
+
+                        // сбрасываем состояние
+                        container.classList.remove('error');
+                        errorEl.textContent = '';
+
+                        if (input.type === 'checkbox') {
+                            if (!input.checked) {
+                                container.classList.add('error');
+                                errorEl.textContent = 'Заполните это поле';
+                                hasError = true;
+                            }
+                            return;
+                        }
+
+                        const value = input.value.trim();
+
+                        // обязательные поля
+                        if (input.required && !value) {
+                            container.classList.add('error');
+                            errorEl.textContent = 'Заполните это поле';
+                            hasError = true;
+                            return;
+                        }
+
+                        // проверка email
+                        if (input.type === 'email' && value) {
+                            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                            if (!emailValid) {
+                                container.classList.add('error');
+                                errorEl.textContent = 'Некорректный формат';
+                                hasError = true;
+                                return;
+                            }
+                        }
+
+                        // проверка телефона (10 цифр)
+                        if (input.type === 'tel' && value) {
+                            const digits = value.replace(/\D/g, '');
+                            if (digits.length !== 10) {
+                                container.classList.add('error');
+                                errorEl.textContent = 'Некорректный формат';
+                                hasError = true;
+                                return;
+                            }
+                        }
+                    });
+
+                    if (!hasError) {
+                        feedbackPopup.classList.add('success');
+                        form.reset();
+                    }
+                });
+            }
+
+            const serviceForm = document.querySelector('#serviceForm');
+
+            if (serviceForm) {
+                serviceForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    let hasError = false;
+
+                    const inputs = serviceForm.querySelectorAll('.pm-input, .pm-checkbox');
+
+                    inputs.forEach(input => {
+                        const container = input.closest('.pm-input__container');
+                        const errorEl = container.querySelector('.pm-input__error');
+
+                        // сбрасываем состояние
+                        container.classList.remove('error');
+                        errorEl.textContent = '';
+
+                        if (input.type === 'checkbox') {
+                            if (!input.checked) {
+                                container.classList.add('error');
+                                errorEl.textContent = 'Заполните это поле';
+                                hasError = true;
+                            }
+                            return;
+                        }
+
+                        const value = input.value.trim();
+
+                        // обязательные поля
+                        if (input.required && !value) {
+                            container.classList.add('error');
+                            errorEl.textContent = 'Заполните это поле';
+                            hasError = true;
+                            return;
+                        }
+
+                        // проверка email
+                        if (input.type === 'email' && value) {
+                            const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                            if (!emailValid) {
+                                container.classList.add('error');
+                                errorEl.textContent = 'Некорректный формат';
+                                hasError = true;
+                                return;
+                            }
+                        }
+
+                        // проверка телефона (10 цифр)
+                        if (input.type === 'tel' && value) {
+                            const digits = value.replace(/\D/g, '');
+                            if (digits.length !== 10) {
+                                container.classList.add('error');
+                                errorEl.textContent = 'Некорректный формат';
+                                hasError = true;
+                                return;
+                            }
+                        }
+                    });
+
+                    if (!hasError) {
+                        servicePopup.classList.add('success');
+                        serviceForm.reset();
+                    }
+                });
+            }
+
+            const inputs = document.querySelectorAll('.pm-input, .pm-checkbox');
+
+            if (inputs) {
+                inputs.forEach(input => {
+                    const container = input.closest('.pm-input__container');
+                    const errorEl = container.querySelector('.pm-input__error');
+
+                    // для текстовых инпутов
+                    input.addEventListener('input', () => {
+                        container.classList.remove('error');
+                    });
+
+                    // для чекбокса
+                    if (input.type === 'checkbox') {
+                        input.addEventListener('change', () => {
+                            container.classList.remove('error');
+                        });
+                    }
+                });
+            }
+
+            const openFeedbackBtn = document.querySelector('#openFeedbackPopup');
+            const feedbackPopup = document.getElementById('feedbackPopup');
+            if (openFeedbackBtn){
+                openFeedbackBtn.addEventListener('click', () => {
+                    feedbackPopup.classList.add('active');
+                    document.body.classList.add('lock');
+                });
+            }
+
+            const openServiceBtn = document.querySelector('#openServicePopup');
+            const servicePopup = document.getElementById('servicePopup');
+            if (openServiceBtn){
+                openServiceBtn.addEventListener('click', () => {
+                    servicePopup.classList.add('active');
+                    document.body.classList.add('lock');
+                });
+            }
+
+            const closeFeedbackBtns = document.querySelectorAll('.close-feedback-popup');
+            if (closeFeedbackBtns){
+                closeFeedbackBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        feedbackPopup.classList.remove('active');
+                        setTimeout(() => {
+                            feedbackPopup.classList.remove('success');
+                            document.body.classList.remove('lock');
+                            form.reset();
+                            resetFormState(document.querySelector('#feedbackForm'));
+                        }, 300);
+                    });
+                });
+            }
+
+            const closeServiceBtns = document.querySelectorAll('.close-service-popup');
+            if (closeServiceBtns){
+                closeServiceBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        servicePopup.classList.remove('active');
+                        setTimeout(() => {
+                            servicePopup.classList.remove('success');
+                            document.body.classList.remove('lock');
+                            serviceForm.reset();
+                            resetFormState(document.querySelector('#serviceForm'));
+                        }, 300);
+                    });
+                });
+            }
+
+            if (feedbackPopup){
+                feedbackPopup.addEventListener('click', (e) => {
+                    // если клик именно по оверлею (не по форме внутри)
+                    if (e.target === feedbackPopup) {
+                        feedbackPopup.classList.remove('active');
+                        setTimeout(() => {
+                            feedbackPopup.classList.remove('success');
+                            document.body.classList.remove('lock');
+                            form.reset();
+                            resetFormState(document.querySelector('#feedbackForm'));
+                        }, 300);
+                    }
+                });
+            }
+
+            if (servicePopup){
+                servicePopup.addEventListener('click', (e) => {
+                    // если клик именно по оверлею (не по форме внутри)
+                    if (e.target === servicePopup) {
+                        servicePopup.classList.remove('active');
+                        setTimeout(() => {
+                            servicePopup.classList.remove('success');
+                            document.body.classList.remove('lock');
+                            serviceForm.reset();
+                            resetFormState(document.querySelector('#serviceForm'));
+                        }, 300);
+                    }
+                });
+            }
+        });
+
+        const resetFormState = (form) => {
+            form.querySelectorAll('.pm-input__container').forEach(container => {
+                container.classList.remove('error');
+                const errorEl = container.querySelector('.pm-input__error');
+                if (errorEl) errorEl.textContent = '';
+            });
+
+            form.querySelectorAll('.pm-input-wrapper').forEach(wrapper => {
+                const input = wrapper.querySelector('.pm-input');
+                wrapper.classList.toggle('active', input.hasAttribute('readonly') || input.value);
+            });
+        };
+
+        const api = window.ProfitabilityCalculatorWidget;
+        const mount = typeof api === 'function' ? api : api?.create;
+
+        if (typeof mount !== 'function') {
+            throw new Error('ProfitabilityCalculatorWidget API is not available');
+        }
+
+        mount('profitability-widget', { theme: 'dark' });
+
+
+        //Попап «Готовое решение»
+        const solutionPopup = document.getElementById('solutionPopup');
+        const solutionForm = document.getElementById('solutionForm');
+        const solutionPackageSelect = document.getElementById('solutionPackageSelect');
+        const solutionPhoneInput = document.getElementById('solutionTel');
+
+        // Маска телефона
+        if (solutionPhoneInput) {
+            IMask(solutionPhoneInput, {
+                mask: '(000) 000-00-00'
+            });
+        }
+
+        // Открытие попапа по кнопкам «Заказать» в карточках решений
+        const solutionBtns = document.querySelectorAll('.pm-gas-solutions__card-btn');
+        solutionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Определяем название пакета из карточки
+                const card = btn.closest('.pm-gas-solutions__card');
+                const packageName = card ? card.querySelector('.pm-gas-solutions__card-name') : null;
+                if (packageName && solutionPackageSelect) {
+                    const value = packageName.textContent.trim();
+                    const hiddenInput = solutionPackageSelect.querySelector('input[type="hidden"]');
+                    const valueSpan = solutionPackageSelect.querySelector('.pm-custom-select__value');
+                    if (hiddenInput) hiddenInput.value = value;
+                    if (valueSpan) valueSpan.textContent = value;
+                    // Обновляем selected в dropdown
+                    const dd = document.getElementById('solutionDropdown');
+                    if (dd) {
+                        dd.querySelectorAll('.pm-custom-select__option').forEach(opt => {
+                            opt.classList.toggle('selected', opt.dataset.value === value);
+                        });
+                    }
+                }
+                solutionPopup.classList.add('active');
+                document.body.classList.add('lock');
+            });
+        });
+
+        // Закрытие попапа
+        const closeSolutionBtns = document.querySelectorAll('.close-solution-popup');
+        closeSolutionBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                solutionPopup.classList.remove('active');
+                setTimeout(() => {
+                    solutionPopup.classList.remove('success');
+                    document.body.classList.remove('lock');
+                    solutionForm.reset();
+                    resetFormState(document.querySelector('#solutionForm'));
+                    // Сброс select
+                    const valueSpan = solutionPackageSelect.querySelector('.pm-custom-select__value');
+                    const hiddenInput = solutionPackageSelect.querySelector('input[type="hidden"]');
+                    if (valueSpan) valueSpan.textContent = 'Бронза';
+                    if (hiddenInput) hiddenInput.value = 'Бронза';
+                    const dd = document.getElementById('solutionDropdown');
+                    if (dd) {
+                        dd.classList.remove('open');
+                        dd.querySelectorAll('.pm-custom-select__option').forEach((opt, i) => opt.classList.toggle('selected', i === 0));
+                    }
+                    solutionPackageSelect.classList.remove('open');
+                    // Сброс счётчика
+                    const counter = solutionForm.querySelector('.pm-textarea__counter');
+                    if (counter) counter.textContent = '0/100';
+                }, 300);
+            });
+        });
+
+        // Клик по оверлею
+        if (solutionPopup) {
+            solutionPopup.addEventListener('click', (e) => {
+                if (e.target === solutionPopup) {
+                    solutionPopup.classList.remove('active');
+                    setTimeout(() => {
+                        solutionPopup.classList.remove('success');
+                        document.body.classList.remove('lock');
+                        solutionForm.reset();
+                        resetFormState(document.querySelector('#solutionForm'));
+                    }, 300);
+                }
+            });
+        }
+
+        // Кастомный select
+        const solutionDropdown = document.getElementById('solutionDropdown');
+        if (solutionPackageSelect && solutionDropdown) {
+            const trigger = solutionPackageSelect.querySelector('.pm-custom-select__trigger');
+            const options = solutionDropdown.querySelectorAll('.pm-custom-select__option');
+            const hiddenInput = solutionPackageSelect.querySelector('input[type="hidden"]');
+            const valueSpan = solutionPackageSelect.querySelector('.pm-custom-select__value');
+
+            function positionDropdown() {
+                const rect = trigger.getBoundingClientRect();
+                solutionDropdown.style.top = (rect.bottom + 4) + 'px';
+                solutionDropdown.style.left = rect.left + 'px';
+                solutionDropdown.style.width = rect.width + 'px';
+            }
+
+            trigger.addEventListener('click', () => {
+                const isOpen = solutionDropdown.classList.contains('open');
+                if (isOpen) {
+                    solutionDropdown.classList.remove('open');
+                    solutionPackageSelect.classList.remove('open');
+                } else {
+                    positionDropdown();
+                    solutionDropdown.classList.add('open');
+                    solutionPackageSelect.classList.add('open');
+                }
+            });
+
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    const val = option.dataset.value;
+                    hiddenInput.value = val;
+                    valueSpan.textContent = val;
+                    options.forEach(o => o.classList.remove('selected'));
+                    option.classList.add('selected');
+                    solutionDropdown.classList.remove('open');
+                    solutionPackageSelect.classList.remove('open');
+                });
+            });
+
+            // Закрытие при клике вне
+            document.addEventListener('click', (e) => {
+                if (!solutionPackageSelect.contains(e.target) && !solutionDropdown.contains(e.target)) {
+                    solutionDropdown.classList.remove('open');
+                    solutionPackageSelect.classList.remove('open');
+                }
+            });
+        }
+
+        // Счётчик символов textarea
+        const solutionComment = document.getElementById('solutionComment');
+        if (solutionComment) {
+            const counter = solutionComment.closest('.pm-input__container').querySelector('.pm-textarea__counter');
+            solutionComment.addEventListener('input', () => {
+                if (counter) counter.textContent = solutionComment.value.length + '/100';
+            });
+        }
+
+        // Отправка формы
+        if (solutionForm) {
+            solutionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let hasError = false;
+                const inputs = solutionForm.querySelectorAll('.pm-input, .pm-checkbox');
+
+                inputs.forEach(input => {
+                    const container = input.closest('.pm-input__container');
+                    if (!container) return;
+                    const errorEl = container.querySelector('.pm-input__error');
+
+                    container.classList.remove('error');
+                    if (errorEl) errorEl.textContent = '';
+
+                    if (input.type === 'checkbox') {
+                        if (!input.checked) {
+                            container.classList.add('error');
+                            if (errorEl) errorEl.textContent = 'Заполните это поле';
+                            hasError = true;
+                        }
+                        return;
+                    }
+
+                    const value = input.value.trim();
+
+                    if (input.required && !value) {
+                        container.classList.add('error');
+                        if (errorEl) errorEl.textContent = 'Заполните это поле';
+                        hasError = true;
+                        return;
+                    }
+
+                    if (input.type === 'email' && value) {
+                        const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                        if (!emailValid) {
+                            container.classList.add('error');
+                            if (errorEl) errorEl.textContent = 'Некорректный формат';
+                            hasError = true;
+                            return;
+                        }
+                    }
+
+                    if (input.type === 'tel' && value) {
+                        const digits = value.replace(/\D/g, '');
+                        if (digits.length !== 10) {
+                            container.classList.add('error');
+                            if (errorEl) errorEl.textContent = 'Некорректный формат';
+                            hasError = true;
+                            return;
+                        }
+                    }
+                });
+
+                if (!hasError) {
+                    solutionPopup.classList.add('success');
+                    solutionForm.reset();
+                }
+            });
+        }
+    </script>
 
     <!-- футер-->
     <script>
