@@ -92,6 +92,10 @@
     background: var(--Control-Neutral-Neutral-primary, rgba(107, 114, 128, 0.16));
 }
 
+.pm-page-dark .pm-input__container.error .pm-input-wrapper{
+    background: var(--bg-sentiment-negative-subtle);
+}
+
 .pm-page-dark .pm-footer-feedback .pm-input-label{
     color: var(--Content-Base-Secondary, #9CA3AF);
 }
