@@ -319,6 +319,7 @@
     text-align: right;
     display: block;
     margin-top: 4px;
+    width: 100%;
 }
 
 .pm-input-wrapper--textarea .pm-input-label {
@@ -1775,6 +1776,10 @@ height: 32px;
 /* ========================
    НАШИ КЕЙСЫ
    ======================== */
+.pm-gas-cases{
+    overflow-x: hidden;
+}
+
 .pm-gas-cases__header {
     margin-bottom: var(--spacing-48);
 }
@@ -2899,6 +2904,7 @@ p.pm-gas-stages__step-text {
 
     .pm-gas-stages__left{
         width: 100%;
+        position: static;
     }
 
     .pm-gas-stages__cta.desktop{
