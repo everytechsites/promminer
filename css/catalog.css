@@ -3499,6 +3499,12 @@ h1.pm-breadcrumb-title{
     font-size: 14px;
     font-weight: 600;
     line-height: 18px;
+    cursor: pointer;
+}
+@media(max-width: 600px){
+    .pm-catalog__badge-text{
+        transform: translateY(1px);
+    }
 }
 
 .pm-catalog-badge.pm-catalog-badge--gray{
@@ -3916,21 +3922,59 @@ h1.pm-breadcrumb-title{
         position: absolute;
         left: 16px;
         top: 50%;
-        -webkit-transition: .2s ease;
-        -o-transition: .2s ease;
-        transition: .2s ease;
+        -webkit-transition: all .2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        -o-transition: all .2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transition: all .2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        will-change: transform;
     }
 
     #filterPopup.filter-section-open .pm-menu-mobile__header-title,
     #filterPopup .pm-menu-popup__mobile-header--fixed .pm-menu-mobile__header-title{
         font-size: 20px;
-        line-height: 24px;
         position: absolute;
         left: 50%;
         top: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
+        -webkit-transform: translate3d(-50%, -50%, 0);
+        -ms-transform: translate3d(-50%, -50%, 0);
+        transform: translate3d(-50%, -50%, 0);
+    }
+
+    #filterPopup:not(.filter-section-open) .pm-menu-mobile__header-title {
+        animation: titleFadeReverse .2s ease-in-out;
+    }
+    #filterPopup.filter-section-open .pm-menu-mobile__header-title{
+        animation: titleFade .2s ease-in-out;
+    }
+    @keyframes titleFade {
+        0% {
+            opacity: 0;
+        }
+        85% {
+            opacity: 0.2;
+        }
+        95% {
+            opacity: 0.75;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
+    @keyframes titleFadeReverse {
+        0% {
+            opacity: 0;
+        }
+        85% {
+            opacity: 0.2;
+        }
+        95% {
+            opacity: 0.75;
+        }
+        100% {
+            opacity: 1;
+        }
     }
 
     #filterPopup .pm-menu-popup__mobile-header .pm-btn--ghost-primary{
@@ -4074,6 +4118,7 @@ h1.pm-breadcrumb-title{
         -webkit-transition: .3s ease;
         -o-transition: .3s ease;
         transition: .3s ease;
+        color: var(--content-sentiment-accent);
     }
 
     .pm-detail-filter__btns-container .pm-btn--link.active{
@@ -4209,7 +4254,6 @@ h1.pm-breadcrumb-title{
 
     #filterPopup.filter-section-open .pm-menu-mobile__header-title, #filterPopup .pm-menu-popup__mobile-header--fixed .pm-menu-mobile__header-title {
         font-size: 16px;
-        line-height: 20px;
     }
 
     #filterPopup.filter-section-open .pm-btn--ghost-primary {
