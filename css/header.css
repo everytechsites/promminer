@@ -433,6 +433,19 @@
     transition: opacity .3s ease;
 }
 
+.pm-footer__social-list{
+    .pm-social-icon__gradient{
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+    }
+}
+
+.pm-footer__social-list a{
+    position: relative;
+}
+
 @media(any-hover: hover){
     .pm-btn.pm-btn--outline.pm-header__social:hover .pm-social-icon__gradient{
         opacity: 1;
@@ -458,8 +471,10 @@
 ======================== */
 .pm-popup-overlay{
     position: fixed;
-    width: 100%;
-    height: 100dvh;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.48);
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);

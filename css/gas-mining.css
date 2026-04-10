@@ -5,6 +5,10 @@
 /* ========================
    DARK PAGE THEME
 ======================== */
+html:has(body.lock){
+    overflow: hidden;
+}
+
 .pm-page-dark {
     --bg-page: #0A0A0A;
     --bg-base-primary: #111827;
@@ -102,10 +106,6 @@
 
 .pm-page-dark .pm-popup-feedback__header .pm-btn-icon path {
     fill: #F9FAFB;
-}
-
-.pm-page-dark .pm-footer__download-btn{
-    background: rgba(82, 82, 82, 0.12);
 }
 
 .pm-page-dark .pm-menu-popup__container{
