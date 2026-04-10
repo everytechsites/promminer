@@ -5,9 +5,6 @@
 /* ========================
    DARK PAGE THEME
 ======================== */
-html:has(body.lock){
-    overflow: hidden;
-}
 
 .pm-page-dark {
     --bg-page: #0A0A0A;
