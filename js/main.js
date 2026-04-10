@@ -34,14 +34,16 @@ document.addEventListener('DOMContentLoaded', () => {
     'use strict';
 
     function isMobileDevice() {
-        const userAgentCheck = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        const touchCheck = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-        const screenCheck = window.innerWidth <= 1024 && touchCheck;
-        return userAgentCheck || (touchCheck && screenCheck);
+        return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+            || (('ontouchstart' in window) && window.innerWidth <= 1024);
     }
 
     function initMobileFormFixes() {
         if (!isMobileDevice()) return;
+
+        if ("virtualKeyboard" in navigator) {
+            navigator.virtualKeyboard.overlaysContent = true;
+        }
 
         const popups = document.querySelectorAll('.pm-popup-overlay');
 
@@ -50,300 +52,210 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!container) return;
 
             const inputs = container.querySelectorAll('input, textarea, select');
-            const selects = popup.querySelectorAll('.pm-custom-select');
+            const body = document.body;
+            const html = document.documentElement;
 
-            let isKeyboardOpen = false;
+            let activeElement = null;
+            let scrollAnimationFrame = null;
+            let isUserScrolling = false;
+            let userScrollTimeout = null;
+            let originalPaddingBottom = null;
+            let savedScrollY = 0;
+            let isBodyLocked = false;
 
-            // Блокировка скролла body
             function lockBodyScroll() {
-                const scrollY = window.scrollY;
-                document.body.style.position = 'fixed';
-                document.body.style.top = `-${scrollY}px`;
-                document.body.style.width = '100%';
-                document.body.style.overflow = 'hidden';
-                document.documentElement.style.overflow = 'hidden';
+                if (isBodyLocked) return;
+
+                savedScrollY = window.scrollY;
+
+                // Только класс и touch-action, без position: fixed
+                body.classList.add('lock');
+                body.style.touchAction = 'none';
+
+                // Сохраняем позицию через CSS-переменную
+                body.style.setProperty('--scroll-y', `-${savedScrollY}px`);
+
+                isBodyLocked = true;
             }
 
-            // Разблокировка скролла body - ИСПРАВЛЕННАЯ ВЕРСИЯ
             function unlockBodyScroll() {
-                const scrollY = document.body.style.top;
+                if (!isBodyLocked) return;
 
-                // Полностью очищаем все стили, которые мы добавили
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-                document.body.style.overflow = '';
-                document.documentElement.style.overflow = '';
+                const activePopups = document.querySelectorAll('.pm-popup-overlay.active, .v-overlay--active');
+                if (activePopups.length > 0) return;
 
-                // Восстанавливаем скролл на позицию
-                if (scrollY && scrollY.startsWith('-')) {
-                    const savedPosition = parseInt(scrollY.replace('-', '').replace('px', ''));
-                    if (!isNaN(savedPosition)) {
-                        // Небольшая задержка чтобы стили применились
-                        setTimeout(() => {
-                            window.scrollTo(0, savedPosition);
-                        }, 10);
-                    }
-                }
+                body.classList.remove('lock');
+                body.style.touchAction = '';
+                body.style.removeProperty('--scroll-y');
+
+                // Скроллим обратно
+                window.scrollTo(0, savedScrollY);
+
+                isBodyLocked = false;
             }
 
-            // Предотвращение touchmove на body и оверлее
-            function preventTouchMove(e) {
-                if (!isKeyboardOpen) return;
+            function isElementFullyVisible(element) {
+                const rect = element.getBoundingClientRect();
+                const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+                return rect.top >= 20 && rect.bottom <= vh - 20;
+            }
 
-                const target = e.target;
-                const isInsideContainer = container.contains(target);
-                const isSelectDropdown = target.closest('.pm-custom-select__dropdown');
+            function smoothScrollToElement(element) {
+                if (!element) return;
 
-                if (!isInsideContainer && !isSelectDropdown) {
-                    e.preventDefault();
+                if (element.value && element.value.length > 0) {
                     return;
                 }
+
+                if (scrollAnimationFrame) {
+                    cancelAnimationFrame(scrollAnimationFrame);
+                }
+
+                const elementRect = element.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+
+                const elementTopRelative = elementRect.top - containerRect.top;
+                const targetScrollTop = container.scrollTop + elementTopRelative - 80;
+
+                const startScrollTop = container.scrollTop;
+                const distance = targetScrollTop - startScrollTop;
+                const duration = 300;
+                const startTime = performance.now();
+
+                function animateScroll(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+
+                    container.scrollTop = startScrollTop + distance * easeOut;
+
+                    if (progress < 1) {
+                        scrollAnimationFrame = requestAnimationFrame(animateScroll);
+                    } else {
+                        scrollAnimationFrame = null;
+                    }
+                }
+
+                scrollAnimationFrame = requestAnimationFrame(animateScroll);
             }
 
-            // Предотвращение скролла колесиком мыши
-            function preventWheelScroll(e) {
-                if (!isKeyboardOpen) return;
+            function updateKeyboardSpace() {
+                const viewportHeight = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+                const fullHeight = window.innerHeight;
+                const keyboardHeight = fullHeight - viewportHeight;
 
-                const target = e.target;
-                if (!container.contains(target)) {
+                if (keyboardHeight > 0) {
+                    if (originalPaddingBottom === null) {
+                        originalPaddingBottom = getComputedStyle(container).paddingBottom;
+                    }
+                    container.style.transition = 'padding-bottom 0.2s ease-out';
+                    container.style.paddingBottom = keyboardHeight + 'px';
+                } else {
+                    container.style.transition = 'padding-bottom 0.2s ease-out';
+                    container.style.paddingBottom = originalPaddingBottom || '';
+                }
+            }
+
+            function reset() {
+                if (scrollAnimationFrame) {
+                    cancelAnimationFrame(scrollAnimationFrame);
+                    scrollAnimationFrame = null;
+                }
+
+                container.style.transition = '';
+                container.scrollTop = 0;
+                container.style.paddingBottom = originalPaddingBottom || '';
+
+                activeElement = null;
+                isUserScrolling = false;
+                originalPaddingBottom = null;
+
+                if (userScrollTimeout) {
+                    clearTimeout(userScrollTimeout);
+                    userScrollTimeout = null;
+                }
+            }
+
+            function handleFocus(e) {
+                activeElement = e.target;
+                lockBodyScroll();
+            }
+
+            container.addEventListener('touchstart', (e) => {
+                container.dataset.touchStartY = e.touches[0].clientY;
+            }, { passive: true });
+
+            container.addEventListener('touchmove', (e) => {
+                const scrollTop = container.scrollTop;
+                const scrollHeight = container.scrollHeight;
+                const clientHeight = container.clientHeight;
+                const currentY = e.touches[0].clientY;
+                const startY = parseFloat(container.dataset.touchStartY) || currentY;
+                const deltaY = currentY - startY;
+
+                if (scrollTop <= 0 && deltaY > 0) {
+                    e.preventDefault();
+                } else if (scrollTop + clientHeight >= scrollHeight && deltaY < 0) {
                     e.preventDefault();
                 }
-            }
+            }, { passive: false });
 
-            // Обновление высоты при открытии клавиатуры
-            function updateForKeyboard() {
-                if (!window.visualViewport) return;
+            container.addEventListener('scroll', () => {
+                isUserScrolling = true;
 
-                const viewport = window.visualViewport;
-                const windowHeight = window.innerHeight;
-                const keyboardHeight = windowHeight - viewport.height;
-
-                if (keyboardHeight > 100) {
-                    if (!isKeyboardOpen) {
-                        isKeyboardOpen = true;
-                        lockBodyScroll();
-
-                        document.addEventListener('touchmove', preventTouchMove, { passive: false });
-                        document.addEventListener('wheel', preventWheelScroll, { passive: false });
-                    }
-
-                    const topPadding = viewport.height * 0.05;
-
-                    popup.style.height = `${viewport.height}px`;
-                    popup.style.maxHeight = `${viewport.height}px`;
-                    popup.style.alignItems = 'flex-start';
-                    popup.style.paddingTop = `${topPadding}px`;
-                    popup.style.paddingBottom = '0';
-
-                    container.style.maxHeight = `${viewport.height - topPadding}px`;
-                    container.style.borderBottomLeftRadius = '0';
-                    container.style.borderBottomRightRadius = '0';
-                } else {
-                    if (isKeyboardOpen) {
-                        isKeyboardOpen = false;
-                        unlockBodyScroll();
-
-                        document.removeEventListener('touchmove', preventTouchMove);
-                        document.removeEventListener('wheel', preventWheelScroll);
-                    }
-
-                    popup.style.height = '';
-                    popup.style.maxHeight = '';
-                    popup.style.alignItems = '';
-                    popup.style.paddingTop = '';
-                    popup.style.paddingBottom = '';
-                    container.style.maxHeight = '';
-                    container.style.borderBottomLeftRadius = '';
-                    container.style.borderBottomRightRadius = '';
+                if (userScrollTimeout) {
+                    clearTimeout(userScrollTimeout);
                 }
-            }
 
-            // Скролл к активному элементу
-            function scrollToActiveElement(element) {
-                if (!element || !isKeyboardOpen) return;
+                userScrollTimeout = setTimeout(() => {
+                    isUserScrolling = false;
+                }, 150);
+            }, { passive: true });
 
-                setTimeout(() => {
-                    requestAnimationFrame(() => {
-                        const containerRect = container.getBoundingClientRect();
-                        const elementRect = element.getBoundingClientRect();
-
-                        const elementRelativeTop = elementRect.top - containerRect.top;
-                        const elementRelativeBottom = elementRect.bottom - containerRect.top;
-
-                        const visibleTop = container.scrollTop;
-                        const visibleBottom = container.scrollTop + container.clientHeight;
-
-                        if (elementRelativeBottom > visibleBottom || elementRelativeTop < visibleTop) {
-                            container.scrollTo({
-                                top: elementRelativeTop - 20,
-                                behavior: 'smooth'
-                            });
-                        }
-                    });
-                }, 250);
-            }
-
-            // Обработчики фокуса
-            function handleFocus(e) {
-                updateForKeyboard();
-                scrollToActiveElement(e.target);
-            }
-
-            function handleBlur() {
-                setTimeout(() => {
-                    const activeElement = document.activeElement;
-                    if (!activeElement || !container.contains(activeElement)) {
-                        if (isKeyboardOpen) {
-                            isKeyboardOpen = false;
-                            unlockBodyScroll();
-
-                            document.removeEventListener('touchmove', preventTouchMove);
-                            document.removeEventListener('wheel', preventWheelScroll);
-                        }
-
-                        popup.style.height = '';
-                        popup.style.maxHeight = '';
-                        popup.style.alignItems = '';
-                        popup.style.paddingTop = '';
-                        popup.style.paddingBottom = '';
-                        container.style.maxHeight = '';
-                        container.style.borderBottomLeftRadius = '';
-                        container.style.borderBottomRightRadius = '';
-                    }
-                }, 100);
-            }
-
-            // Навешиваем обработчики на все инпуты
             inputs.forEach(input => {
                 input.addEventListener('focus', handleFocus);
-                input.addEventListener('blur', handleBlur);
             });
 
-            // Для кастомных селектов
-            selects.forEach(select => {
-                select.addEventListener('click', () => {
-                    if (isKeyboardOpen) {
-                        updateForKeyboard();
-                    }
-                });
-            });
-
-            // Следим за visualViewport
             if (window.visualViewport) {
-                let ticking = false;
+                let prevHeight = window.visualViewport.height;
 
                 window.visualViewport.addEventListener('resize', () => {
-                    if (!ticking) {
-                        window.requestAnimationFrame(() => {
-                            const activeElement = document.activeElement;
-                            if (activeElement && container.contains(activeElement)) {
-                                updateForKeyboard();
-                                scrollToActiveElement(activeElement);
+                    const newHeight = window.visualViewport.height;
+                    const keyboardVisible = newHeight < prevHeight - 50;
+
+                    updateKeyboardSpace();
+
+                    if (keyboardVisible && activeElement && !activeElement.value && !isUserScrolling) {
+                        requestAnimationFrame(() => {
+                            if (!isElementFullyVisible(activeElement)) {
+                                smoothScrollToElement(activeElement);
                             }
-                            ticking = false;
                         });
-                        ticking = true;
                     }
+
+                    prevHeight = newHeight;
                 });
             }
 
-            // Восстановление при закрытии попапа - ИСПРАВЛЕННАЯ ВЕРСИЯ
-            function restoreAll() {
-                // Снимаем блокировку с body
-                const scrollY = document.body.style.top;
-
-                document.body.style.position = '';
-                document.body.style.top = '';
-                document.body.style.width = '';
-                document.body.style.overflow = '';
-                document.documentElement.style.overflow = '';
-
-                // Восстанавливаем позицию скролла
-                if (scrollY && scrollY.startsWith('-')) {
-                    const savedPosition = parseInt(scrollY.replace('-', '').replace('px', ''));
-                    if (!isNaN(savedPosition)) {
-                        setTimeout(() => {
-                            window.scrollTo(0, savedPosition);
-                        }, 10);
-                    }
-                }
-
-                // Сбрасываем флаг и удаляем слушатели
-                isKeyboardOpen = false;
-                document.removeEventListener('touchmove', preventTouchMove);
-                document.removeEventListener('wheel', preventWheelScroll);
-
-                // Сбрасываем стили попапа и контейнера
-                popup.style.height = '';
-                popup.style.maxHeight = '';
-                popup.style.alignItems = '';
-                popup.style.paddingTop = '';
-                popup.style.paddingBottom = '';
-                container.style.maxHeight = '';
-                container.style.borderBottomLeftRadius = '';
-                container.style.borderBottomRightRadius = '';
-            }
-
-            // Ищем кнопки закрытия
-            const closeButtons = popup.querySelectorAll('[class*="close-"]');
-            const submitBtn = container.querySelector('button[type="submit"]');
-
-            closeButtons.forEach(btn => {
-                btn.addEventListener('click', restoreAll);
-            });
-
-            if (submitBtn) {
-                submitBtn.addEventListener('click', (e) => {
-                    // Не мешаем отправке формы
-                    setTimeout(restoreAll, 100);
-                });
-            }
-
-            // Клик по оверлею
-            popup.addEventListener('click', (e) => {
-                if (e.target === popup) {
-                    restoreAll();
+            // Следим только за классом active
+            const observer = new MutationObserver(() => {
+                if (popup.classList.contains('active')) {
+                    lockBodyScroll();
+                    container.scrollTop = 0;
+                } else {
+                    reset();
+                    unlockBodyScroll();
                 }
             });
 
-            // Дополнительно: слушаем закрытие попапа через класс active
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                        if (!popup.classList.contains('active')) {
-                            // Попап закрылся - восстанавливаем всё
-                            restoreAll();
-                        }
-                    }
-                });
-            });
-
-            observer.observe(popup, { attributes: true });
+            observer.observe(popup, { attributes: true, attributeFilter: ['class'] });
         });
     }
 
-    // Инициализация
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', initMobileFormFixes);
     } else {
         initMobileFormFixes();
     }
-
-    // Наблюдатель за открытием попапа
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                const target = mutation.target;
-                if (target.classList.contains('active')) {
-                    setTimeout(initMobileFormFixes, 100);
-                }
-            }
-        });
-    });
-
-    document.querySelectorAll('.pm-popup-overlay').forEach(popup => {
-        observer.observe(popup, { attributes: true });
-    });
 
 })();
