@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="css/old/styles.css">
   <link rel="stylesheet" href="css/old/template_styles.css">
   <link rel="stylesheet" href="css/fonts.css">
-  <link rel="stylesheet" href="./mini-profitability-widget.css" />
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/header.css">
   <link rel="stylesheet" href="css/main.css">
@@ -1639,7 +1638,7 @@
             <p class="pm-gas-stages__step-text">Размещаем оборудование, обеспечиваем инфраструктуру, подключаем к пулу и настраиваем мониторинг</p>
             <div class="pm-gas-stages__step-tags">
               <span class="pm-gas-stages__step-tag">Мониторинг</span>
-              <span class="pm-gas-stages__step-tag">Promminer Poo</span>
+              <span class="pm-gas-stages__step-tag">Promminer Pool</span>
             </div>
           </div>
           <div class="pm-gas-stages__step">
@@ -1715,9 +1714,29 @@
               </a>
             </div>
           </div>
-          <div class="pm-cases__video-item" data-video="video/reels.mp4">
-            <img src="img/miningPage/videoPreview.png" alt="">
-            <img src="img/miningPage/videoPlay.svg" alt="" class="pm-cases__video-icon">
+          <div class="pm-cases__video-item" data-video="img/miningPage/mining.mp4">
+            <video muted playsinline>
+              <source src="img/miningPage/mining.mp4" type="video/mp4">
+            </video>
+            <button class="pm-video-control">
+              <svg class="pm-video__progress-circle" xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 56 56">
+                  <circle
+                      cx="28"
+                      cy="28"
+                      r="26"
+                      stroke="white"
+                      stroke-width="3"
+                      fill="none"
+                      style="transform: rotate(-90deg); transform-origin: 50% 50%;"
+                  />
+              </svg>
+
+              <svg class="pm-btn-icon pm-video-control--play" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M6 4.00028V20.0003C5.99995 20.1782 6.04737 20.3529 6.13738 20.5064C6.22739 20.6599 6.35672 20.7866 6.51202 20.8734C6.66733 20.9602 6.84299 21.0041 7.02088 21.0003C7.19878 20.9966 7.37245 20.9455 7.524 20.8523L20.524 12.8523C20.6696 12.7628 20.7898 12.6375 20.8733 12.4884C20.9567 12.3392 21.0005 12.1712 21.0005 12.0003C21.0005 11.8294 20.9567 11.6613 20.8733 11.5122C20.7898 11.363 20.6696 11.2378 20.524 11.1483L7.524 3.14828C7.37245 3.05505 7.19878 3.00393 7.02088 3.00022C6.84299 2.9965 6.66733 3.04032 6.51202 3.12714C6.35672 3.21397 6.22739 3.34066 6.13738 3.49414C6.04737 3.64763 5.99995 3.82235 6 4.00028Z" fill="white"/>
+              </svg>
+
+              <img class="pm-btn-icon pm-video-control--pause hidden" src="img/icons/pause.svg" alt="">
+              </button>
           </div>
         </div>
       </div>
@@ -2808,6 +2827,104 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
+  // видео
+  const video = document.querySelector('.pm-cases__video-item').querySelector('video');
+                const control = document.querySelector('.pm-cases__video-item').querySelector('.pm-video-control');
+
+                if (video && control) {
+
+                    video.loop = true;
+
+                    const circle = control.querySelector('circle');
+                    const radius = circle.r.baseVal.value;
+                    const circumference = 2 * Math.PI * radius;
+
+                    circle.style.strokeDasharray = circumference;
+                    circle.style.strokeDashoffset = 0;
+
+                    function updateProgress() {
+                        const percent = video.currentTime / video.duration;
+                        circle.style.strokeDashoffset = circumference * percent;
+
+                        if (!video.paused) {
+                            requestAnimationFrame(updateProgress);
+                        }
+                    }
+
+                    // клик
+                    control.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        if (video.paused) {
+                            video.play();
+                            updateProgress();
+                            control.querySelector('.pm-video-control--play').classList.add('hidden');
+                            control.querySelector('.pm-video-control--pause').classList.remove('hidden');
+                        } else {
+                            video.pause();
+                            control.querySelector('.pm-video-control--play').classList.remove('hidden');
+                            control.querySelector('.pm-video-control--pause').classList.add('hidden');
+                        }
+                    });
+
+                    video.addEventListener('ended', () => {
+                        circle.style.strokeDashoffset = 0;
+                    });
+
+                    const observer = new IntersectionObserver(entries => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                if (video.paused && !video.ended) {
+                                    video.play();
+                                    updateProgress();
+                                    control.querySelector('.pm-video-control--play').classList.add('hidden');
+                                    control.querySelector('.pm-video-control--pause').classList.remove('hidden');
+                                }
+                            }
+                        });
+                    }, { threshold: 0.5 });
+
+                    observer.observe(document.querySelector('.pm-gas-cases'));
+                }
+    // лайтбокс для видео
+    const reelsPopup = document.getElementById('reelsPopup');
+    const reelsVideo = reelsPopup.querySelector('video');
+    const reelsSource = reelsPopup.querySelector('source');
+    const closeReelsPopup = reelsPopup.querySelector('#closeReelsPopup');
+
+    document.querySelectorAll('.pm-cases__video-item').forEach(slide => {
+      slide.addEventListener('click', (e) => {
+        e.stopPropagation();
+
+        const videoSrc = slide.dataset.video;
+        if (!videoSrc) return;
+
+        video.pause();
+        control.querySelector('.pm-video-control--play').classList.remove('hidden');
+        control.querySelector('.pm-video-control--pause').classList.add('hidden');
+
+        reelsSource.src = videoSrc;
+        reelsVideo.load();
+
+        reelsPopup.classList.add('active');
+        document.body.classList.add('lock');
+        reelsVideo.play();
+      });
+    });
+
+    reelsPopup.addEventListener('click', (e) => {
+      if (e.target === reelsPopup) {
+        document.body.classList.remove('lock');
+        reelsPopup.classList.remove('active');
+        reelsVideo.pause();
+        reelsVideo.currentTime = 0;
+      }
+    });
+    closeReelsPopup.addEventListener('click', (e) => {
+      document.body.classList.remove('lock');
+      reelsPopup.classList.remove('active');
+      reelsVideo.pause();
+      reelsVideo.currentTime = 0;
+    });
     // слайдер каталог готовый решений
     const miningSlider = new Swiper('.pm-popular-slider', {
       spaceBetween: 16,
@@ -2833,44 +2950,6 @@
           slidesPerGroup: 5,
         }
       },
-    });
-
-    // лайтбокс для видео
-    const reelsPopup = document.getElementById('reelsPopup');
-    const reelsVideo = reelsPopup.querySelector('video');
-    const reelsSource = reelsPopup.querySelector('source');
-    const closeReelsPopup = reelsPopup.querySelector('#closeReelsPopup');
-
-    document.querySelectorAll('.pm-cases__video-item').forEach(slide => {
-      slide.addEventListener('click', (e) => {
-        // чтобы клик по кнопке не ломал логику свайпа
-        e.stopPropagation();
-
-        const videoSrc = slide.dataset.video;
-        if (!videoSrc) return;
-
-        reelsSource.src = videoSrc;
-        reelsVideo.load();
-
-        reelsPopup.classList.add('active');
-        document.body.classList.add('lock');
-        reelsVideo.play();
-      });
-    });
-
-    reelsPopup.addEventListener('click', (e) => {
-      if (e.target === reelsPopup) {
-        document.body.classList.remove('lock');
-        reelsPopup.classList.remove('active');
-        reelsVideo.pause();
-        reelsVideo.currentTime = 0;
-      }
-    });
-    closeReelsPopup.addEventListener('click', (e) => {
-      document.body.classList.remove('lock');
-      reelsPopup.classList.remove('active');
-      reelsVideo.pause();
-      reelsVideo.currentTime = 0;
     });
 
     const teamThumbsSlider = new Swiper(".pm-team__thumbs-slider", {
