@@ -412,10 +412,14 @@ h1.pm-breadcrumb-title{
 
 .pm-product__main-img-container{
     width: 100%;
-    height: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    border: 1px solid var(--border-base-neutral);
+    height: fit-content;
+    max-height: 100%;
+    overflow: hidden;
+    border-radius: 16px;
 }
 
 .pm-product__main-img-container.is-large {
@@ -430,7 +434,6 @@ h1.pm-breadcrumb-title{
     height: -moz-fit-content;
     height: fit-content;
     cursor: pointer;
-    border: 1px solid var(--border-base-neutral);
     -o-object-fit: cover;
     object-fit: cover;
     border-radius: 16px;
